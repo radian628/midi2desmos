@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Midi2Desmos</title>
+  </head>
+  <body>
+    <p>Upload MIDI file:</p>
+    <input type="file" id="input" />
+    <textarea readonly id="output"></textarea>
+    <p>
+      See
+      <a href="https://www.desmos.com/calculator/kjznkemj33?tone">this</a> as an
+      example of how to use this script.
+      <em
+        ><em
+          >Replace the contents of the "bulkdata" folder with the output from
+          this script to swap out the song.
+        </em></em
+      >
+    </p>
+    <p>
+      Output format is a list of binary-packed time "blocks" so that notes in
+      the song can be indexed in O(1) time.
+    </p>
+    <p>
+      Each block can be split into a sequence of 8-bit integers. Starting with
+      the least-significant bits, these 8-bit numbers represent as follows:
+    </p>
+    <ol>
+      <li>
+        Bits 0-7: Starting time of the 1st note within the block. 1 represents
+        the start of the block; 255 represents the end of the block. 0 is a
+        sentinel value meaning "no note."
+      </li>
+      <li>
+        Bits 8-15: Frequency of the 1st note in semitones, where 60 is middle C.
+      </li>
+      <li>
+        Bits 16-23: Starting time of the 2nd note in the same format as Bits
+        0-7.
+      </li>
+      <li>
+        Bits 24-31: Frequency of the 2nd note in semitones in the same format as
+        Bits 8-15.
+      </li>
+      <li>Bits 32-39: Time for the 3rd note.</li>
+      <li>Bits 40-47: Freq for the 3rd note.</li>
+    </ol>
+    <script src="./main.js"></script>
+  </body>
+</html>
